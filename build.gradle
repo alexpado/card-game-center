@@ -1,0 +1,79 @@
+import java.nio.charset.StandardCharsets
+
+plugins {
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'java'
+    id 'com.github.ben-manes.versions' version '0.51.0'
+    id 'org.ajoberstar.reckon' version '0.18.3'
+}
+
+
+def generalCharset = StandardCharsets.UTF_8.name()
+
+group = 'fr.alexpado'
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+compileJava.options.encoding = generalCharset
+compileTestJava.options.encoding = generalCharset
+javadoc.options.encoding = generalCharset
+
+reckon {
+    stages('dev', 'beta', 'rc', 'final')
+
+    scopeCalc = calcScopeFromProp() | calcScopeFromCommitMessages()
+    stageCalc = calcStageFromProp()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    runtimeOnly group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.4.1'
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: '10.20.0'
+    implementation group: 'org.flywaydb', name: 'flyway-mysql', version: '10.20.0'
+
+    implementation group: 'org.json', name: 'json', version: '20240303'
+    implementation group: 'net.dv8tion', name: 'JDA', version: '5.1.2'
+
+    implementation(group: 'fr.alexpado', name: 'jda-interactions-extension', version: '1.0.0-rc.1') {
+        exclude(group: 'io.sentry')
+    }
+
+    implementation group: 'io.sentry', name: 'sentry-spring-boot-starter', version: '7.15.0'
+
+    implementation group: 'org.jetbrains', name: 'annotations', version: '26.0.1'
+}
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+static def isNonStable(String version) {
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+
+tasks.named("dependencyUpdates").configure {
+    rejectVersionIf {
+        isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)
+    }
+}
