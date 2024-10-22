@@ -51,7 +51,7 @@ public class BossTurnState implements GameState {
             builder.setTitle(String.format("Limite Limite: Manche %s", this.game.getRound()));
 
             builder.setDescription(String.format(
-                    "%s %s choisi un gagant...\n\n",
+                    "%s %s choisi un gagnant...\n\n",
                     Emojis.BOSS,
                     this.game.getBoss().getAsMention()
             ));
