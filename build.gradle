@@ -56,7 +56,7 @@ dependencies {
         exclude(group: 'io.sentry')
     }
 
-    implementation group: 'io.sentry', name: 'sentry-spring-boot-starter', version: '7.15.0'
+    implementation group: 'io.sentry', name: 'sentry-spring-boot-starter-jakarta', version: '7.15.0'
 
     implementation group: 'org.jetbrains', name: 'annotations', version: '26.0.1'
 }
