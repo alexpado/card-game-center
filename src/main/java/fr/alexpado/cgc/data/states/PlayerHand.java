@@ -37,18 +37,27 @@ public class PlayerHand implements MixedResponse {
     public Consumer<MessageRequest<?>> getHandler() {
 
         return (mr) -> {
-            int    currentCardAmount = this.player.getCards().size();
-            int    maxCardAmount     = Game.CARD_PER_PLAYER;
-            String activeCards       = this.player.getActiveCards()
-                                                  .stream()
-                                                  .map(Emojis::fromCardIndex)
-                                                  .collect(Collectors.joining());
+            int  currentCardAmount = this.player.getCards().size();
+            int  activeCardAmount  = this.player.getActiveCards().size();
+            Card roundCard         = this.game.getCard();
+
+            String activeCards = this.player.getActiveCards()
+                                            .stream()
+                                            .map(Emojis::fromCardIndex)
+                                            .collect(Collectors.joining());
+
+            boolean cannotDraw = currentCardAmount == Game.CARD_PER_PLAYER;
+            boolean cannotSubmit = roundCard == null || roundCard.getCardToPlay() > activeCardAmount;
 
             EmbedBuilder builder = new EmbedBuilder();
-            builder.setTitle(String.format("Limite Limite: Votre jeu (%s/%s)", currentCardAmount, maxCardAmount));
+            builder.setTitle(String.format(
+                    "Limite Limite: Votre jeu (%s/%s)",
+                    currentCardAmount,
+                    Game.CARD_PER_PLAYER
+            ));
             builder.appendDescription(String.format("Vous vous apprêtez à jouer: %s\n\n", activeCards));
 
-            for (int i = 0 ; i < this.player.getCards().size() ; i++) {
+            for (int i = 0; i < currentCardAmount; i++) {
                 Card card = this.player.getCards().get(i);
 
                 builder.appendDescription(String.format(
@@ -63,8 +72,8 @@ public class PlayerHand implements MixedResponse {
 
             mr.setComponents(
                     ActionRow.of(
-                            Button.of(ButtonStyle.PRIMARY, "button://card/draw", "Piocher"),
-                            Button.of(ButtonStyle.SUCCESS, "button://card/submit", "Valider")
+                            Button.of(ButtonStyle.PRIMARY, "button://card/draw", "Piocher").withDisabled(cannotDraw),
+                            Button.of(ButtonStyle.SUCCESS, "button://card/submit", "Valider").withDisabled(cannotSubmit)
                     ),
                     ActionRow.of(
                             this.getCardButton(0),
@@ -105,4 +114,5 @@ public class PlayerHand implements MixedResponse {
 
         return true;
     }
+
 }
