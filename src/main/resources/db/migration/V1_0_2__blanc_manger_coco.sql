@@ -86,7 +86,7 @@ VALUES
     ('BLANC_MANGER_COCO', 'BLACK', '▁▁▁▁▁▁▁ poil au nez, ▁▁▁▁▁▁▁ poil au bras'),
     ('BLANC_MANGER_COCO', 'BLACK', '▁▁▁▁▁▁▁, La Mecque n\'était peut-être pas l\'endroit le plus indiqué, tu y avais pensé ?'),
     ('BLANC_MANGER_COCO', 'BLACK', '▁▁▁▁▁▁▁ et ▁▁▁▁▁▁▁... Ou comment allier l\'utile à l\'agréable'),
-    ('BLANC_MANGER_COCO', 'BLACK', 'Un apéro sans pastis, et pour pas ▁▁▁▁▁▁▁ sans ▁▁▁▁▁▁▁ tant qu\'on y est ?'),
+    ('BLANC_MANGER_COCO', 'BLACK', 'Un apéro sans pastis, et pourquoi pas ▁▁▁▁▁▁▁ sans ▁▁▁▁▁▁▁ tant qu\'on y est ?'),
     ('BLANC_MANGER_COCO', 'BLACK', 'Si on se penche sur les statistiques, ▁▁▁▁▁▁▁ et ▁▁▁▁▁▁▁ sont étroitement corrélés'),
     ('BLANC_MANGER_COCO', 'BLACK', '▁▁▁▁▁▁▁, ça aurait dû se jouer à pile ou face'),
     ('BLANC_MANGER_COCO', 'BLACK', '▁▁▁▁▁▁▁ a marqué à coup sûr le premier jour du reste de ma vie'),
