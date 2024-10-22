@@ -1,15 +1,23 @@
 package fr.alexpado.cgc.heplers;
 
-import java.util.Arrays;
-
 public class StringHelper {
 
     public static int count(String str, String search) {
 
-        return Arrays.stream(str.split(" "))
-                     .filter(s -> s.equalsIgnoreCase(search))
-                     .mapToInt(s -> 1)
-                     .sum();
+        int count     = 0;
+        int lastIndex = 0;
+
+        while (lastIndex != -1) {
+
+            lastIndex = str.indexOf(search, lastIndex);
+
+            if (lastIndex != -1) {
+                count++;
+                lastIndex += search.length();
+            }
+        }
+
+        return count;
     }
 
 }
