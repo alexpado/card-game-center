@@ -56,10 +56,10 @@ public class GameService {
         return this.games.stream().filter(game -> game.getServerId() == guild.getIdLong()).findAny();
     }
 
-    public Game createGame(InteractionHook hook, Guild guild, Member member) {
+    public Game createGame(InteractionHook hook, Guild guild, Member member, long pointToWin) {
 
         if (this.findGame(guild).isEmpty()) {
-            Game game = new Game(hook, guild, this.repository.findAll());
+            Game game = new Game(hook, guild, this.repository.findAll(), pointToWin);
             this.games.add(game);
             game.addParticipant(member);
             return game;

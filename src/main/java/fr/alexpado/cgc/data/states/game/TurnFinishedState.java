@@ -80,7 +80,7 @@ public class TurnFinishedState implements GameState {
 
             mr.setEmbeds(builder.build());
 
-            if (players.stream().anyMatch(player -> player.getScore() >= Game.POINT_TO_WIN)) {
+            if (players.stream().anyMatch(player -> player.getScore() >= this.game.getPointToWin())) {
                 mr.setComponents(ActionRow.of(
                         Button.of(ButtonStyle.SUCCESS, "button://round/next", "Voir les résultats")
                 ));

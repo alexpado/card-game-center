@@ -1,6 +1,8 @@
 package fr.alexpado.cgc.interactions;
 
 import fr.alexpado.jda.interactions.annotations.Interact;
+import fr.alexpado.jda.interactions.annotations.Option;
+import fr.alexpado.jda.interactions.annotations.Param;
 import fr.alexpado.jda.interactions.responses.ButtonResponse;
 import fr.alexpado.jda.interactions.responses.SlashResponse;
 import fr.alexpado.cgc.annotations.InteractAt;
@@ -13,9 +15,12 @@ import fr.alexpado.cgc.services.GameService;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @InteractionBean
 @Component
@@ -30,10 +35,21 @@ public class GameInteractions {
         this.service = service;
     }
 
-    @Interact(name = "game/create", description = "Démarre une partie")
-    public MixedResponse createNewGame(InteractionHook hook, Guild guild, Member member) {
+    @Interact(
+            name = "game/create",
+            description = "Démarre une partie",
+            options = {
+                    @Option(
+                            name = "points",
+                            description = "Nombre de point à accumuler pour gagner.",
+                            type = OptionType.INTEGER
+                    )
+            }
+    )
+    public MixedResponse createNewGame(InteractionHook hook, Guild guild, Member member, @Param("points") Long points) {
 
-        return this.service.createGame(hook, guild, member).getState();
+        long pointToWin = Optional.ofNullable(points).orElse(Game.POINT_TO_WIN);
+        return this.service.createGame(hook, guild, member, pointToWin).getState();
     }
 
     @Interact(name = "game/join", description = "Rejoindre une partie")
@@ -92,4 +108,5 @@ public class GameInteractions {
         game.setHook(hook);
         return game.getState();
     }
+
 }

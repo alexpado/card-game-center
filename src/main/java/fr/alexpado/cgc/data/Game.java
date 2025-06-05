@@ -22,8 +22,8 @@ public class Game {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Game.class);
 
-    public static final int CARD_PER_PLAYER = 7;
-    public static final int POINT_TO_WIN = 5;
+    public static final int  CARD_PER_PLAYER = 7;
+    public static final long POINT_TO_WIN    = 5;
 
     private final long            server;
     private       InteractionHook hook;
@@ -34,19 +34,22 @@ public class Game {
     private final BlockingDeque<Card> blackCards;
     private final BlockingDeque<Card> redCards;
 
+    private final long pointToWin;
+
     private ZonedDateTime lastHookRefresh;
     private Player        latestWinner;
     private Player        boss;
     private Card          card;
     private int           round;
 
-    public Game(InteractionHook hook, ISnowflake guild, Collection<Card> cards) {
+    public Game(InteractionHook hook, ISnowflake guild, Collection<Card> cards, long pointToWin) {
 
-        this.server  = guild.getIdLong();
-        this.hook    = hook;
-        this.deck    = new ArrayList<>(cards);
-        this.players = new ArrayList<>();
-        this.round   = 0;
+        this.server     = guild.getIdLong();
+        this.hook       = hook;
+        this.deck       = new ArrayList<>(cards);
+        this.pointToWin = pointToWin;
+        this.players    = new ArrayList<>();
+        this.round      = 0;
 
         this.blackCards = new LinkedBlockingDeque<>();
         this.redCards   = new LinkedBlockingDeque<>();
@@ -80,7 +83,7 @@ public class Game {
 
     public void setHook(InteractionHook hook) {
 
-        this.hook = hook;
+        this.hook            = hook;
         this.lastHookRefresh = ZonedDateTime.now();
     }
 
@@ -129,6 +132,7 @@ public class Game {
     }
 
     public boolean isExpiringSoon() {
+
         return Duration.between(this.lastHookRefresh, ZonedDateTime.now()).getSeconds() >= 13 * 60;
     }
 
@@ -192,7 +196,7 @@ public class Game {
             return true;
         }
 
-        if (this.getPlayers().stream().anyMatch(player -> player.getScore() >= POINT_TO_WIN)) {
+        if (this.getPlayers().stream().anyMatch(player -> player.getScore() >= this.pointToWin)) {
             this.setTurn(PlayTurn.FINISHED, new GameFinishedState(this));
             return false;
         }
@@ -251,6 +255,10 @@ public class Game {
 
         return this.boss;
     }
+
+    public long getPointToWin() {
+        return this.pointToWin;
+    }
     // </editor-fold>
 
     // <editor-fold desc="Utilities">
@@ -284,6 +292,7 @@ public class Game {
 
         return this.getPlayers().stream().anyMatch(player -> player.getCards().contains(card));
     }
+
     // </editor-fold>
 
 }
