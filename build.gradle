@@ -1,11 +1,11 @@
 import java.nio.charset.StandardCharsets
 
 plugins {
-    id 'org.springframework.boot' version '3.3.4'
-    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.springframework.boot' version '3.5.0'
+    id 'io.spring.dependency-management' version '1.1.7'
     id 'java'
-    id 'com.github.ben-manes.versions' version '0.51.0'
-    id 'org.ajoberstar.reckon' version '0.18.3'
+    id 'com.github.ben-manes.versions' version '0.52.0'
+    id 'org.ajoberstar.reckon' version '0.19.2'
 }
 
 
@@ -45,20 +45,20 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    runtimeOnly group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.4.1'
-    implementation group: 'org.flywaydb', name: 'flyway-core', version: '10.20.0'
-    implementation group: 'org.flywaydb', name: 'flyway-mysql', version: '10.20.0'
+    runtimeOnly group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.5.3'
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: '11.9.1'
+    implementation group: 'org.flywaydb', name: 'flyway-mysql', version: '11.9.1'
 
-    implementation group: 'org.json', name: 'json', version: '20240303'
-    implementation group: 'net.dv8tion', name: 'JDA', version: '5.1.2'
+    implementation group: 'org.json', name: 'json', version: '20250517'
+    implementation group: 'net.dv8tion', name: 'JDA', version: '5.5.1'
 
-    implementation(group: 'fr.alexpado', name: 'jda-interactions-extension', version: '1.0.0-rc.1') {
+    implementation(group: 'fr.alexpado', name: 'jda-interactions-extension', version: '1.0.0-rc.2') {
         exclude(group: 'io.sentry')
     }
 
-    implementation group: 'io.sentry', name: 'sentry-spring-boot-starter-jakarta', version: '7.15.0'
+    implementation group: 'io.sentry', name: 'sentry-spring-boot-starter-jakarta', version: '8.13.2'
 
-    implementation group: 'org.jetbrains', name: 'annotations', version: '26.0.1'
+    implementation group: 'org.jetbrains', name: 'annotations', version: '26.0.2'
 }
 
 
