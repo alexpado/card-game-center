@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Emojis {
 
-    public static final String LOAD = "<a:load:1040436813468282900>";
-    public static final String READY = "<:ready:1040437568065511526>";
+    public static final String LOAD = "<a:thinking:1380265229568708820>";
+    public static final String READY = "<:ready:1380265753315508456>";
     public static final String CARD = "\uD83C\uDFB4";
     public static final String BOSS = "\uD83C\uDFA9";
 
